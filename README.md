@@ -1,7 +1,9 @@
-# Bulk Rename tool
-### python tool used to rename files in bulk
+# Bulk Patern Rename tool
+### python tool used to bulk rename files based on rules set in _RenameScript_
 
-Added RenameScript custom language to automate renaming files   
+---
+
+Added custom language _RenameScript_ to automate renaming files   
    
      
 ```for @file {*}{@number}.py```  
