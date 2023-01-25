@@ -1,2 +1,2 @@
-## hello this is new file
-what happend??
+# Bulk Rename tool
+### python tool used to renaming files in bulk
