@@ -46,6 +46,6 @@ def load_file(interpreter_version):
 
     file_rsversion = rs_file.readline().rstrip()
     if file_rsversion != interpreter_version:
-        raise EnvironmentError('Interpreter version and file version do not match up or HEADER is not set up correctly')
+        raise EnvironmentError(f'{Bcolors.FAIL}Interpreter version and file version do not match up or HEADER is not set up correctly{Bcolors.ENDC}')
     print(f'{Bcolors.OKGREEN}File loaded succesfuly!{Bcolors.ENDC}')
     return rs_file
