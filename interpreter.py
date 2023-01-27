@@ -9,6 +9,7 @@ class Interpreter:
     def __init__(self):
         self.stack=[]
         self.items_in_loop=[]
+        self.working_file=''
         self.commands={
             # name: [nr of arguments to load, function to execute]
             'for': [2, self.handle_for],
@@ -23,6 +24,10 @@ class Interpreter:
         self.keys_to_replace={
             '{@number}': '\d+',
             '{*}': '.*'
+        }
+        self.renaming_vars={
+            '@original': self.working_file,
+            '@parent': os.getcwd().split('\\')[-1]
         }
     def handle_for(self):
         if self.items_in_loop: raise ValueError("Nested for loops not yet supported")
@@ -48,8 +53,21 @@ class Interpreter:
     def printloop(self):
         print(self.items_in_loop)
 
-    def handle_rename(self):
+    def handle_rename(self, dir_list):
         old_name, new_name = self.load_arguments(2)
+        working_dir=os.getcwd()
+        for dir in dir_list:
+            os.chdir('/'+dir)
+            for filename in os.listdir(working_dir):
+                self.working_file=filename
+                if not self.handle_name_check(filename, old_name):
+                    continue
+                for to_replace in list(self.renaming_vars.keys()):
+                    new_name=new_name.replace(to_replace, self.renaming_vars[to_replace])
+                os.rename(filename, new_name)
+            os.chdir(working_dir)
+
+
 
     def handle_end(self):
         self.items_in_loop=[]

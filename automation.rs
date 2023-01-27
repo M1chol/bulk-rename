@@ -1,7 +1,5 @@
 v1
 for @dirs nan{*}
 printloop
-rename nan nan22
+rename {@number}.py {@parent}_{@original}.py
 end
-for @file {*}.py
-printloop
