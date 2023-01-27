@@ -1,2 +1,7 @@
 v1
-for @file {*}{@number}.py
+for @dirs nan{*}
+printloop
+rename nan nan22
+end
+for @file {*}.py
+printloop

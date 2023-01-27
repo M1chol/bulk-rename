@@ -1,5 +1,16 @@
 import os
 
+class Bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 def load_file(interpreter_version):
     file_not_loaded=True
     rs_file=None
@@ -21,7 +32,7 @@ def load_file(interpreter_version):
             rs_file=open(located_rscript_files[0])
         print(f'Loading file {rs_file.name}...')
     else:
-        print('[Could not locate file automaticly]')
+        print(f'{Bcolors.FAIL}Could not locate file automaticly{Bcolors.ENDC}')
         while file_not_loaded:
             try:
                 plik=input('RenameScript file path: ')
@@ -29,16 +40,12 @@ def load_file(interpreter_version):
                 print(f'Loading file {rs_file.name}...')
                 file_not_loaded=False
             except FileNotFoundError:
-                print('[File not found]')
+                print(f'{Bcolors.FAIL}File not found{Bcolors.ENDC}')
             except:
-                print('Other file error')
-                quit()
+                raise Exception(f'{Bcolors.FAIL}Unknown file error{Bcolors.ENDC}')
 
-    if rs_file is type(None):
-        raise FileExistsError('Unknown error finding file')
     file_rsversion = rs_file.readline().rstrip()
     if file_rsversion != interpreter_version:
         raise EnvironmentError('Interpreter version and file version do not match up or HEADER is not set up correctly')
-    instructions=[i for i in rs_file]
-    print('Instructions loaded succesfuly!')
-    return [rs_file.name, instructions]
+    print(f'{Bcolors.OKGREEN}File loaded succesfuly!{Bcolors.ENDC}')
+    return rs_file
