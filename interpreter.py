@@ -26,8 +26,8 @@ class Interpreter:
             '{*}': '.*'
         }
         self.renaming_vars={
-            '@original': self.working_file,
-            '@parent': os.getcwd().split('\\')[-1]
+            '{@original}': self.get_working_file_name,
+            '{@parent}': self.get_working_dir
         }
     def handle_for(self):
         if self.items_in_loop: raise ValueError("Nested for loops not yet supported")
@@ -53,21 +53,23 @@ class Interpreter:
     def printloop(self):
         print(self.items_in_loop)
 
-    def handle_rename(self, dir_list):
-        old_name, new_name = self.load_arguments(2)
+    def handle_rename(self):
+        old_name, new_name_rule = self.load_arguments(2)
         working_dir=os.getcwd()
-        for dir in dir_list:
-            os.chdir('/'+dir)
-            for filename in os.listdir(working_dir):
-                self.working_file=filename
+        for dir in self.items_in_loop:
+            os.chdir(working_dir+'\\'+dir)
+            for filename in os.listdir(os.getcwd()):
                 if not self.handle_name_check(filename, old_name):
                     continue
+                new_name=new_name_rule
+                self.working_file=filename
                 for to_replace in list(self.renaming_vars.keys()):
-                    new_name=new_name.replace(to_replace, self.renaming_vars[to_replace])
+                    new_name=new_name.replace(to_replace, self.renaming_vars[to_replace]())
                 os.rename(filename, new_name)
             os.chdir(working_dir)
 
-
+    def get_working_file_name(self): return self.working_file[:self.working_file.index('.')]
+    def get_working_dir(self): return os.getcwd().split('\\')[-1]
 
     def handle_end(self):
         self.items_in_loop=[]
