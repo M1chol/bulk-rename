@@ -10,6 +10,7 @@ class Interpreter:
         self.stack=[]
         self.items_in_loop=[]
         self.working_file=''
+        self.file_counter=0
         self.commands={
             # name: [nr of arguments to load, function to execute]
             'for': [2, self.handle_for],
@@ -27,7 +28,8 @@ class Interpreter:
         }
         self.renaming_vars={
             '{@original}': self.get_working_file_name,
-            '{@parent}': self.get_working_dir
+            '{@parent}': self.get_working_dir,
+            '{@counter}': self.handle_counter
         }
     def handle_for(self):
         if self.items_in_loop: raise ValueError("Nested for loops not yet supported")
@@ -54,22 +56,32 @@ class Interpreter:
         print(self.items_in_loop)
 
     def handle_rename(self):
-        old_name, new_name_rule = self.load_arguments(2)
         working_dir=os.getcwd()
-        for dir in self.items_in_loop:
-            os.chdir(working_dir+'\\'+dir)
-            for filename in os.listdir(os.getcwd()):
-                if not self.handle_name_check(filename, old_name):
-                    continue
-                new_name=new_name_rule
-                self.working_file=filename
-                for to_replace in list(self.renaming_vars.keys()):
-                    new_name=new_name.replace(to_replace, self.renaming_vars[to_replace]())
-                os.rename(filename, new_name)
+        if not self.items_in_loop:
+            self.rename_files(os.listdir(working_dir))
+        for dirs in self.items_in_loop:
+            os.chdir(working_dir+'\\'+dirs)
+            self.rename_files(os.listdir(os.getcwd()))
             os.chdir(working_dir)
 
+    def rename_files(self, working_dir):
+        old_name, new_name_rule=self.load_arguments(2)
+        for filename in working_dir:
+            if not self.handle_name_check(filename, old_name):
+                continue
+            new_name=new_name_rule
+            self.working_file=filename
+            for to_replace in list(self.renaming_vars.keys()):
+                new_name=new_name.replace(to_replace, self.renaming_vars[to_replace]())
+            os.rename(filename, new_name)
+
     def get_working_file_name(self): return self.working_file[:self.working_file.index('.')]
-    def get_working_dir(self): return os.getcwd().split('\\')[-1]
+    @staticmethod
+    def get_working_dir(): return os.getcwd().split('\\')[-1]
+
+    def handle_counter(self):
+        self.file_counter+=1
+        return str(self.file_counter)
 
     def handle_end(self):
         self.items_in_loop=[]
@@ -102,5 +114,7 @@ for line_nr, instruction in enumerate(rs_file):
     try:
         Interpreter.load_commands_to_stack(interpreter, instruction_parsed)
     except ValueError as encountered_error:
-        print(f'{hf.Bcolors.FAIL}{rs_file.name} failed on line {line_nr+1} with error: {encountered_error}{hf.Bcolors.ENDC}')
-        quit()
+        print('{rs_file.name} failed on line {line_nr+1} with error: {encountered_error}')
+        input()
+print('All files renamed successfully!')
+input()

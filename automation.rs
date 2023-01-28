@@ -1,4 +1,3 @@
 v1
-for @dirs nan{*}
-rename {@number}.py {@parent}_{@original}.py
+rename {*}.txt {@original}_{@counter}.txt
 end
