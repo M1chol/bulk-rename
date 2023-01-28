@@ -4,7 +4,7 @@
 ---
 
 Added custom language _RenameScript_ to automate renaming files   
-   
+![GIF](https://github.com/M1chol/bulk-rename/blob/master/misc/bulk.gif)
      
 ```for @file {*}{@number}.py``` =>
 ```14.py, 112.py, temp53.py```   
