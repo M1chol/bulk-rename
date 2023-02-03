@@ -1,3 +1,3 @@
 v1
-rename {*}.txt {@original}_{@counter}.txt
-end
+rename evidence{*}.png dog_{@counter}.png
+del {*}.txt

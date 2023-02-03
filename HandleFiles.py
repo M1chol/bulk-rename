@@ -38,3 +38,6 @@ def load_file(interpreter_version):
         raise EnvironmentError('Interpreter version and file version do not match up or HEADER is not set up correctly')
     print('File loaded succesfuly!')
     return rs_file
+
+def dir_walidate(dirc):
+    return os.path.isdir(dirc)
