@@ -12,10 +12,12 @@ v1
 rename evidence{*}.png dog_{@counter}.png
 del {*}.txt
 ```
+![GIF](https://github.com/M1chol/bulk-rename/blob/master/misc/bulk4.gif)   
 You can allways check interpreter version on the .exe
 
 
-##Documentation
+## Documentation
+
 ### for loop
 ```
 for [type] [name]   
@@ -56,15 +58,17 @@ rename data_{@number}.ods exel{@counter}
 - data_12.ods => exel_1.ods
 - data_24.ods => exel_2.ods
 ```   
-###del
+### del
 ```
 del evidence{@number}.png => removes all evidence! handy!
 ```
 
 ---
-## More complicated usecases:
-![GIF](https://github.com/M1chol/bulk-rename/blob/master/misc/bulk.gif)
 
 ### More of the tool in action
+![GIF](https://github.com/M1chol/bulk-rename/blob/master/misc/bulk.gif)
+
 ![GIF](https://github.com/M1chol/bulk-rename/blob/master/misc/bulk2.gif)
+
+![GIF](https://github.com/M1chol/bulk-rename/blob/master/misc/bulk3.gif)
      
