@@ -2,18 +2,18 @@
 ### Python tool used to bulk rename files based on patterns!
 
 ---
-This tool supports renaming and deleting files, you specify in files and folders using 
+This tool supports renaming and deleting files, you specify files and folders using 
 custom language. Before you execute program you need to set up special file with automation
 code written in _Rename Script_   
    
-The first line of code must contain version of interpreter code is written for.   
+The first line of code must contain version of interpreter code is written for. And file extension must be .rs     
 ```
 v1
 rename evidence{*}.png dog_{@counter}.png
 del {*}.txt
 ```
 ![GIF](https://github.com/M1chol/bulk-rename/blob/master/misc/bulk4.gif)   
-You can allways check interpreter version on the .exe
+You can always check interpreter version on the .exe
 
 
 ## Documentation
